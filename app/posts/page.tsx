@@ -1,5 +1,4 @@
 import Post from "@/components/Post";
-import Image from "next/image";
 import Link from "next/link";
 import { getAllPosts } from "../_actions/postActions";
 
