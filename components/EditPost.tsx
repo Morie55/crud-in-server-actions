@@ -1,5 +1,6 @@
 "use client";
-import { createPost, updatePostById } from "@/app/_actions/postActions";
+
+import { updatePostById } from "@/app/_actions/postActions";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
@@ -9,66 +10,72 @@ const EditPost = ({ post }: any) => {
   const [desc, setDesc] = useState(post.desc);
   const [loading, setLoading] = useState(false);
 
-  const HandleSubmit = async () => {
+  const handleSubmit = async () => {
     try {
       setLoading(true);
-      const data = {
-        title: title,
-        desc: desc,
-        id: post._id,
-      };
-
-      const result = await updatePostById(data);
-
-      router.push(`/posts`);
+      await updatePostById({ title, desc, id: post._id });
+      router.push("/posts");
       router.refresh();
-
-      setLoading(false);
     } catch (error) {
+      console.error("Failed to update post:", error);
+    } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="flex justify-center">
-      <div className="w-[40%]">
-        <h1 className="text-4xl font-black">Edit post</h1>
+    <div className="flex justify-center px-4 py-10">
+      <div className="w-full max-w-xl bg-white shadow-md rounded-2xl p-8">
+        <h1 className="text-3xl font-extrabold text-gray-800 mb-6">
+          Edit Post
+        </h1>
 
-        <div className="mt-8 bg-slate-600 p-4 space-y-6">
-          <div className="flex flex-col gap-1">
-            <label htmlFor="">post Title</label>
+        <div className="space-y-6">
+          <div className="flex flex-col gap-2">
+            <label
+              htmlFor="title"
+              className="text-sm font-medium text-gray-700"
+            >
+              Post Title
+            </label>
             <input
+              id="title"
+              type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="w-full border p-4 rounded-2xl"
-              type="text"
-              placeholder="Post title"
+              placeholder="Enter post title"
+              className="p-4 border border-gray-300 text-black rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
-          <div className="flex flex-col gap-1">
-            <label htmlFor="">Post Description</label>
-
+          <div className="flex flex-col gap-2">
+            <label htmlFor="desc" className="text-sm font-medium text-gray-700">
+              Post Description
+            </label>
             <textarea
-              className="w-full min-h-[100px] border p-4 rounded-2xl"
-              placeholder="Post Description"
-              name=""
-              id=""
+              id="desc"
               value={desc}
-              onChange={(e) => setDesc(e.currentTarget.value)}
-            ></textarea>
+              onChange={(e) => setDesc(e.target.value)}
+              placeholder="Enter post description"
+              className="p-4 border border-gray-300 text-black rounded-xl min-h-[120px] resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
           </div>
 
           <button
+            onClick={handleSubmit}
             disabled={loading}
-            onClick={HandleSubmit}
-            className="bg-blue-500 px-4 py-3 cursor-pointer disabled:cursor-not-allowed disabled:bg-blue-400  "
+            className={`w-full text-white font-semibold py-3 rounded-xl transition-colors duration-300 ${
+              loading
+                ? "bg-blue-400 cursor-not-allowed"
+                : "bg-blue-600 hover:bg-blue-700"
+            }`}
           >
-            {loading ? "Updating..." : "Updatde"}
+            {loading ? "Updating..." : "Update Post"}
           </button>
         </div>
       </div>
     </div>
   );
 };
+
 export default EditPost;

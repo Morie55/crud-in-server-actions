@@ -6,19 +6,34 @@ export default async function Home() {
   const posts: any = await getAllPosts();
 
   return (
-    <div className="p">
-      <div className="flex items-center justify-between">
-        <h1 className="text-4xl font-black">Post list</h1>
-        <Link href={"/posts/new"} className="px-6 py-4 bg-blue-600">
-          Add new post
+    <main className="bg-white min-h-screen px-4 sm:px-6 lg:px-12 py-10">
+      {/* Header section */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-gray-200 pb-6 mb-8">
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900">
+          Post List
+        </h1>
+        <Link
+          href="/posts/new"
+          className="inline-block text-sm font-medium bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-lg shadow transition-all"
+        >
+          + Add New Post
         </Link>
       </div>
 
-      <div className="mt-6 grid grid-cols-3 gap-2">
-        {posts.map((post: any, i: number) => (
-          <Post key={i} post={post} />
-        ))}
-      </div>
-    </div>
+      {/* Posts grid */}
+      {posts?.length > 0 ? (
+        <section className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+          {posts.map((post: any, index: number) => (
+            <Post key={index} post={post} />
+          ))}
+        </section>
+      ) : (
+        <div className="flex justify-center items-center mt-16">
+          <p className="text-center text-gray-500 text-base sm:text-lg">
+            No posts available.
+          </p>
+        </div>
+      )}
+    </main>
   );
 }
