@@ -9,7 +9,7 @@ export default async function Home() {
   return (
     <main className="bg-white min-h-screen px-4 sm:px-6 lg:px-12 py-10">
       {/* Header section */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-gray-200 pb-6 mb-8">
+      <header className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-gray-200 pb-6 mb-8">
         <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900">
           Post List
         </h1>
@@ -19,7 +19,7 @@ export default async function Home() {
         >
           + Add New Post
         </Link>
-      </div>
+      </header>
 
       {/* Posts grid */}
       {posts?.length > 0 ? (
