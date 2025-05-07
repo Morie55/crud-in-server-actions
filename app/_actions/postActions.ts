@@ -2,9 +2,16 @@
 
 import { connect } from "@/lib/mongodb";
 import Post from "@/models/Post";
-import { stringify } from "querystring";
+// import { stringify } from "querystring";
 
-export const createPost = async (data: any) => {
+interface PostData {
+  title: string;
+  content: string;
+  author: string;
+  // Add other fields as needed
+}
+
+export const createPost = async (data: PostData) => {
   try {
     await connect();
 
@@ -49,10 +56,17 @@ export const getPostById = async (id: string) => {
     const post = JSON.parse(JSON.stringify(postData));
 
     return post;
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 };
 
-export const updatePostById = async (data: any) => {
+export const updatePostById = async (data: {
+  id: string;
+  title?: string;
+  content?: string;
+  author?: string;
+}) => {
   try {
     await connect();
 
